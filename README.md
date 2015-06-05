@@ -15,14 +15,14 @@ mybatis3.0+
 
 	<!--shard_config.xml--->
 	<?xml version="1.0" encoding="UTF-8"?>
-	<!DOCTYPE shardingConfig PUBLIC "-//shardbatis.googlecode.com//DTD Shardbatis 2.0//EN" "http://shardbatis.googlecode.com/dtd/shardbatis-config.dtd">
+	<!DOCTYPE shardingConfig PUBLIC "-//shardbatis.googlecode.com//DTD Shardbatis 2.0//EN" 				   		"http://shardbatis.googlecode.com/dtd/shardbatis-config.dtd">
 	<shardingConfig>
 			<!--
 				ignoreList可选配置
 				ignoreList配置的mapperId会被分表参加忽略解析,不会对sql进行修改
 			-->
 			<ignoreList>
-					<value>com.google.code.shardbatis.test.mapper.AppTestMapper.insertNoShard</value>
+				<value>com.google.code.shardbatis.test.mapper.AppTestMapper.insertNoShard</value>
 			</ignoreList>
 			<!-- 
 				parseList可选配置
@@ -53,19 +53,19 @@ shard_config.xml必须保存在应用的classpath中
 实现一个简单的接口即可
 
 	/**
- 		* 分表策略接口
- 		* @author sean.he
- 		*
- 		*/
+ 	* 分表策略接口
+ 	* @author sean.he
+ 	*
+ 	*/
 	public interface ShardStrategy {
-			/**
-				* 得到实际表名
-				* @param baseTableName 逻辑表名,一般是没有前缀或者是后缀的表名
-				* @param params mybatis执行某个statement时使用的参数
-				* @param mapperId mybatis配置的statement id
-				* @return
-				*/
-				String getTargetTableName(String baseTableName,Object params,String mapperId);
+		/**
+		* 得到实际表名
+		* @param baseTableName 逻辑表名,一般是没有前缀或者是后缀的表名
+		* @param params mybatis执行某个statement时使用的参数
+		* @param mapperId mybatis配置的statement id
+		* @return
+		*/
+		String getTargetTableName(String baseTableName,Object params,String mapperId);
 	}
 
 可以参考
@@ -74,13 +74,11 @@ shard_config.xml必须保存在应用的classpath中
 3.代码中使用shardbatis
 因为shardbatis2.0使用插件方式对mybatis功能进行增强，因此使用配置了shardbatis的mybatis3和使用原生的mybatis3没有区别
 
-
-
 	SqlSession session = sqlSessionFactory.openSession();
 	try {
-			AppTestMapper mapper = session.getMapper(AppTestMapper.class);
-			mapper.insert(testDO);
-			session.commit();
+		AppTestMapper mapper = session.getMapper(AppTestMapper.class);
+		mapper.insert(testDO);
+		session.commit();
 	} finally {
 		session.close();
 	}
@@ -89,8 +87,10 @@ shard_config.xml必须保存在应用的classpath中
 使用注意事项:
 	2.0版本中insert update delete 语句中的子查询语句中的表不支持sharding(不好意思太拗口了-_-!)
 	select语句中如果进行多表关联，请务必为每个表名加上别名
-	例如原始sql语句：SELECT a.* FROM ANTIQUES a,ANTIQUEOWNERS b, mytable c where a.id=b.id and b.id=c.id
-	经过转换后的结果可能为：SELECT a.* FROM ANTIQUES_0 AS a, ANTIQUEOWNERS_1 AS b, mytable_1 AS c WHERE a.id = b.id AND b.id = c.id
+	例如原始sql语句：
+		SELECT a.* FROM ANTIQUES a,ANTIQUEOWNERS b, mytable c where a.id=b.id and b.id=c.id
+	经过转换后的结果可能为：
+		SELECT a.* FROM ANTIQUES_0 AS a, ANTIQUEOWNERS_1 AS b, mytable_1 AS c WHERE a.id = b.id AND b.id = c.id
 
 目前已经支持了大部分的sql语句的解析，已经测试通过的语句可以查看测试用例：
 
