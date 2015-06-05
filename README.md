@@ -1,9 +1,9 @@
-# shardbatis-1
+# shardbatis
 Automatically exported from code.google.com/p/shardbatis
 
 
-
 shardbatis2.x使用指南
+
 运行环境
 jdk6.0+:shardbatis使用JDK6.0编译。也可以使用JDK5.0编译
 mybatis3.0+
@@ -34,6 +34,7 @@ mybatis3.0+
         -->
         <strategy tableName="APP_TEST" strategyClass="com.google.code.shardbatis.strategy.impl.AppTestShardStrategyImpl"/>      
 </shardingConfig>
+
 shard_config.xml必须保存在应用的classpath中
 
 在mybatis配置文件中添加插件配置
@@ -63,7 +64,8 @@ public interface ShardStrategy {
 }
 
 可以参考
-com.google.code.shardbatis.strategy.impl.AppTestShardStrategyImpl
+  com.google.code.shardbatis.strategy.impl.AppTestShardStrategyImpl
+  
 3.代码中使用shardbatis
 因为shardbatis2.0使用插件方式对mybatis功能进行增强，因此使用配置了shardbatis的mybatis3和使用原生的mybatis3没有区别
 
@@ -75,6 +77,7 @@ try {
 } finally {
         session.close();
 }
+
 使用注意事项
 2.0版本中insert update delete 语句中的子查询语句中的表不支持sharding(不好意思太拗口了-_-!)
 select语句中如果进行多表关联，请务必为每个表名加上别名
@@ -94,7 +97,9 @@ select a.col_1,a.col_2,a.col_3 from test_table1 a where a.id in (select aid from
 select col_1,col_2 from test_table1 where type is not null and col_3 is null order by id
 select count(*),col_1 from test_table2 group by col_1 having count(*)>1
 select a.col_1,a.col_2,b.col_1 from test_table1 a,t_table b where a.id=b.id
+
 insert into test_table1 (col_1,col_2,col_3,col_4) values (?,?,?,?)
+
 SELECT EMPLOYEEIDNO FROM test_table1 WHERE POSITION = 'Manager' AND SALARY > 60000 OR BENEFITS > 12000
 SELECT EMPLOYEEIDNO FROM test_table1 WHERE POSITION = 'Manager' AND (SALARY > 50000 OR BENEFIT > 10000)
 SELECT EMPLOYEEIDNO FROM test_table1 WHERE LASTNAME LIKE 'L%'
@@ -105,9 +110,12 @@ SELECT BUYERID FROM test_table1 UNION SELECT BUYERID FROM test_table2
 SELECT OWNERID, 'is in both Orders & Antiques' FROM test_table1 a, test_table2 b WHERE a.OWNERID = b.BUYERID and a.type in (?,?,?)
 SELECT DISTINCT SELLERID, OWNERLASTNAME, OWNERFIRSTNAME FROM test_table1, noconvert_table WHERE SELLERID = OWNERID ORDER BY OWNERLASTNAME, OWNERFIRSTNAME, OWNERID
 SELECT a.* FROM test_table1 a, noconvert_table b WHERE a.SELLERID = b.OWNERID 
+
 update test_table1 set col_1=123 ,col_2=?,col_3=? where col_4=?
 update test_table1 set col_1=?,col_2=col_2+1 where id in (?,?,?,?)
+
 delete from test_table2 where id in (?,?,?,?,?,?) and col_1 is not null
+
 INSERT INTO test_table1 VALUES (21, 01, 'Ottoman', ?,?)
 INSERT INTO test_table1 (BUYERID, SELLERID, ITEM) VALUES (01, 21, ?)
 
