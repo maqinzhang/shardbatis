@@ -85,12 +85,14 @@ shard_config.xml必须保存在应用的classpath中
 
 
 使用注意事项:
-	2.0版本中insert update delete 语句中的子查询语句中的表不支持sharding(不好意思太拗口了-_-!)
-	select语句中如果进行多表关联，请务必为每个表名加上别名
-	例如原始sql语句：
-		SELECT a.* FROM ANTIQUES a,ANTIQUEOWNERS b, mytable c where a.id=b.id and b.id=c.id
-	经过转换后的结果可能为：
-		SELECT a.* FROM ANTIQUES_0 AS a, ANTIQUEOWNERS_1 AS b, mytable_1 AS c WHERE a.id = b.id AND b.id = c.id
+		2.0版本中insert update delete 语句中的子查询语句中的表不支持sharding(不好意思太拗口了-_-!)
+		select语句中如果进行多表关联，请务必为每个表名加上别名
+	
+		例如原始sql语句：
+			SELECT a.* FROM ANTIQUES a,ANTIQUEOWNERS b, mytable c where a.id=b.id and b.id=c.id
+		经过转换后的结果可能为：
+			SELECT a.* FROM ANTIQUES_0 AS a, ANTIQUEOWNERS_1 AS b, mytable_1 AS c WHERE a.id = b.id AND b.id = c.id
+
 
 目前已经支持了大部分的sql语句的解析，已经测试通过的语句可以查看测试用例：
 
