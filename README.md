@@ -11,6 +11,7 @@ mybatis3.0+
 添加sharding配置
 新建一个xml文件,例如：shard_config.xml
 
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE shardingConfig PUBLIC "-//shardbatis.googlecode.com//DTD Shardbatis 2.0//EN"
   "http://shardbatis.googlecode.com/dtd/shardbatis-config.dtd">
@@ -34,6 +35,7 @@ mybatis3.0+
         -->
         <strategy tableName="APP_TEST" strategyClass="com.google.code.shardbatis.strategy.impl.AppTestShardStrategyImpl"/>      
 </shardingConfig>
+
 
 shard_config.xml必须保存在应用的classpath中
 
