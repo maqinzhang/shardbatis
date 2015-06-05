@@ -61,6 +61,7 @@ public interface ShardStrategy {
          */
         String getTargetTableName(String baseTableName,Object params,String mapperId);
 }
+
 可以参考
 com.google.code.shardbatis.strategy.impl.AppTestShardStrategyImpl
 3.代码中使用shardbatis
